@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Angular Friends</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Angular Friends</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="css/custom.css">
 </head>
+
 <body>
-  <h1>The <strong>facebook</strong> Friend Machine</h1>
+    <div ng-app='myApp'>
+        <h1>The <strong>facebook</strong> Friend Machine</h1>
 
-  <div class="friends">
-    <form class="form-inline searchForm" role="form">
-      <div class="form-group">
-        <input class="form-control" placeholder="Search Anything About Your Friends">
+        <div class="friends" ng-controller='friendCtrl'>
+            <form class="form-inline searchForm" role="form">
+                <div class="form-group">
 
-        <select class="input-medium">
-          <option>Name</option>
-          <option>#Friends</option>
-          <option>City</option>
-          <option>State</option>
-          <option>Country</option>
-        </select>
+                    <input class="form-control" placeholder="Search Your Friends By Name" ng-model='findFriend.name'>
 
-        <select class="input-medium">
-          <option value="-">Descending</option>
-          <option value="+">Ascending</option>
-        </select>
-      </div>
-    </form>
+                    <input class="form-control" placeholder="Search Your Friends By State" ng-model='findFriend.location.state'>
 
-    <ul>
-      <li class='friend'>
-        <img class="profile-pic" src='http://placebear.com/50/50.jpg'>
-        <h3>Cali Fornia</h3>
-        <div class="location">
-          Location: New Port Beach, California, United States
+                    <select class="input-medium" ng-model='isSelected' ng-options='item.value as item.name for item in sortProp'>
+                        <option value="">sort by</option>
+                    </select>
+
+                    <select class="input-medium" ng-model='direction' ng-options='prop.value as prop.name for prop in sortDirection'>
+                        <option value="">default</option>
+                    </select>
+                </div>
+            </form>
+
+            <ul>
+                <li class='friend' ng-repeat='friend in friends |filter:findFriend|orderBy: direction+isSelected'>
+                    <img class="profile-pic" src='{{friend.pic_square}}'>
+                    <h3>{{friend.name}}</h3>
+                    <div class="location">
+                        Location: {{friend.location.city}}, {{friend.location.state}}, {{friend.location.country}}
+                    </div>
+                    <div class="status">
+                        Status: {{friend.status}}
+                    </div>
+                    <div class="num-friends">
+
+                        Friends: {{friend.friend_count}}
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="status">
-          Status: I hate the snow. I wish I was on the beach right now!!!
-        </div>
-        <div class="num-friends">
-          Friends: 1,367
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!-- your scripts here -->
+    </div>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='js/app.js'></script>
+    <script src='js/friendCtrl.js'></script>
+    <!-- your scripts here -->
 </body>
+
 </html>
